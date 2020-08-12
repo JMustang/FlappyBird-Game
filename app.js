@@ -69,8 +69,15 @@ const bird = {
     spriteY: 0,
     largura: 33,
     altura: 24,
-    x: 130,
-    y: 100,
+    x: 50,
+    y: 80,
+    gravidade: 0.5,
+    velocidade: 0,
+    atualiza() {
+        bird.velocidade = bird.velocidade + bird.gravidade;
+        bird.y = bird.y + bird.velocidade;
+    },
+
     desenha() {
         contexto.drawImage(
             sprites,
@@ -83,6 +90,7 @@ const bird = {
 }
 
 function loop() {
+    bird.atualiza();
     planoDeFundo.desenha();
     chao.desenha();
     bird.desenha();
