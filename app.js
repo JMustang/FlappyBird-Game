@@ -69,8 +69,8 @@ const bird = {
     spriteY: 0,
     largura: 33,
     altura: 24,
-    x: 50,
-    y: 80,
+    x: 30,
+    y: 65,
     gravidade: 0.5,
     velocidade: 0,
     atualiza() {
@@ -88,13 +88,76 @@ const bird = {
         );
     }
 }
+//tela get ready
+const getReady = {
+    spriteX: 134,
+    spriteY: 0,
+    largura: 174,
+    altura: 152,
+    x: (canvas.width / 2) - 174 / 2,
+    y: 50,
+    desenha() {
+        contexto.drawImage(
+            sprites,
+            getReady.spriteX, getReady.spriteY,
+            getReady.largura, getReady.altura,
+            getReady.x, getReady.y,
+            getReady.largura, getReady.altura,
+        );
+    },
+};
+
+
+//
+// [Telas]
+//
+
+let telaAtiva = {};
+
+function mudaParaTela(novaTela) {
+    telaAtiva = novaTela;
+};
+
+const Telas = {
+    INICIO: {
+        desenha() {
+            planoDeFundo.desenha();
+            chao.desenha();
+            bird.desenha();
+            getReady.desenha();
+        },
+        click() {
+            mudaParaTela(Telas.JOGO)
+        },
+        atualiza() {
+
+        }
+    },
+};
+Telas.JOGO = {
+    desenha() {
+        planoDeFundo.desenha();
+        chao.desenha();
+        bird.desenha();
+    },
+    atualiza() {
+        bird.atualiza();
+    }
+};
 
 function loop() {
-    bird.atualiza();
-    planoDeFundo.desenha();
-    chao.desenha();
-    bird.desenha();
+
+    telaAtiva.desenha();
+    telaAtiva.atualiza();
 
     requestAnimationFrame(loop);
 }
+
+window.addEventListener('click', function () {
+    if (telaAtiva.click) {
+        telaAtiva.click();
+    }
+});
+
+mudaParaTela(Telas.INICIO);
 loop();
