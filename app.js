@@ -126,18 +126,29 @@ criaBird = () => {
       bird.y = bird.y + bird.velocidade;
     },
 
-    movimentos: [
-      { spriteX: 0, spriteY: 0 }, // asa pra cima
-      { spriteX: 0, spriteY: 26 }, // asa no meio
-      { spriteX: 0, spriteY: 52 }, // asa pra baixo
-      { spriteX: 0, spriteY: 26 }, // asa no meio
+    movimentos: [{
+        spriteX: 0,
+        spriteY: 0
+      }, // asa pra cima
+      {
+        spriteX: 0,
+        spriteY: 26
+      }, // asa no meio
+      {
+        spriteX: 0,
+        spriteY: 52
+      }, // asa pra baixo
+      {
+        spriteX: 0,
+        spriteY: 26
+      }, // asa no meio
     ],
     frameAtual: 0,
+
+    //[movimentação do passaro]
     atualizaOFrameAtual() {
       const intervaloDeFrames = 10;
       const passouOIntervalo = frames % intervaloDeFrames === 0;
-      // console.log('passouOIntervalo', passouOIntervalo)
-
       if (passouOIntervalo) {
         const baseDoIncremento = 1;
         const incremento = baseDoIncremento + bird.frameAtual;
@@ -148,7 +159,10 @@ criaBird = () => {
 
     desenha() {
       bird.atualizaOFrameAtual();
-      const { spriteX, spriteY } = bird.movimentos[bird.frameAtual];
+      const {
+        spriteX,
+        spriteY
+      } = bird.movimentos[bird.frameAtual];
 
       contexto.drawImage(
         sprites,
