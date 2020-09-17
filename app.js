@@ -1,5 +1,11 @@
 console.log("Flappy Bird game");
 
+const som_HIT = new Audio();
+som_HIT.src = "./efeitos/hit.wav";
+
+const somDe_HIT = new Audio();
+somDe_HIT.src = "./efeitos/pulo.wav";
+
 let frames = 0;
 const sprites = new Image();
 sprites.src = "./sprites.png";
@@ -118,6 +124,7 @@ criaBird = () => {
     velocidade: 0,
     atualiza() {
       if (colisao(bird, globais.chao)) {
+        som_HIT.play();
         mudaParaTela(Telas.INICIO);
         return;
       }
@@ -126,21 +133,22 @@ criaBird = () => {
       bird.y = bird.y + bird.velocidade;
     },
 
-    movimentos: [{
+    movimentos: [
+      {
         spriteX: 0,
-        spriteY: 0
+        spriteY: 0,
       }, // asa pra cima
       {
         spriteX: 0,
-        spriteY: 26
+        spriteY: 26,
       }, // asa no meio
       {
         spriteX: 0,
-        spriteY: 52
+        spriteY: 52,
       }, // asa pra baixo
       {
         spriteX: 0,
-        spriteY: 26
+        spriteY: 26,
       }, // asa no meio
     ],
     frameAtual: 0,
@@ -159,10 +167,7 @@ criaBird = () => {
 
     desenha() {
       bird.atualizaOFrameAtual();
-      const {
-        spriteX,
-        spriteY
-      } = bird.movimentos[bird.frameAtual];
+      const { spriteX, spriteY } = bird.movimentos[bird.frameAtual];
 
       contexto.drawImage(
         sprites,
@@ -243,6 +248,7 @@ Telas.JOGO = {
   },
   click() {
     globais.bird.pula();
+    somDe_HIT.play();
   },
   atualiza() {
     globais.bird.atualiza();
