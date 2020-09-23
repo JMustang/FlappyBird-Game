@@ -3,8 +3,8 @@ console.log("Flappy Bird game");
 const som_HIT = new Audio();
 som_HIT.src = "./efeitos/hit.wav";
 
-const somDe_HIT = new Audio();
-somDe_HIT.src = "./efeitos/pulo.wav";
+const som_PULO = new Audio();
+som_PULO.src = "./efeitos/pulo.wav";
 
 let frames = 0;
 const sprites = new Image();
@@ -208,6 +208,109 @@ const getReady = {
   },
 };
 
+//[função cria canos]
+criaCanos = () => {
+  const canos = {
+    largura: 52,
+    altura: 400,
+    chao: {
+      spriteX: 0,
+      spriteY: 169,
+    },
+    ceu: {
+      spriteX: 52,
+      spriteY: 169,
+    },
+    espaco: 80,
+    desenha() {
+      canos.pares.forEach((par) => {
+        const yRandom = par.y;
+        const espacamentoEntreCanos = 90;
+
+        const canoCeuX = par.x;
+        const canoCeuY = yRandom;
+
+        //[cano do ceu]
+        contexto.drawImage(
+          sprites,
+          canos.ceu.spriteX,
+          canos.ceu.spriteY,
+          canos.largura,
+          canos.altura,
+          canoCeuX,
+          canoCeuY,
+          canos.largura,
+          canos.altura
+        );
+
+        const canoChaoX = par.x;
+        const canoChaoY = canos.altura + espacamentoEntreCanos + yRandom;
+
+        //[cano do chao]
+        contexto.drawImage(
+          sprites,
+          canos.chao.spriteX,
+          canos.chao.spriteY,
+          canos.largura,
+          canos.altura,
+          canoChaoX,
+          canoChaoY,
+          canos.largura,
+          canos.altura
+        );
+
+        par.canoCeu = {
+          x: canoCeuX,
+          y: canos.altura + canoCeuY,
+        };
+        par.canoChao = {
+          x: canoChaoX,
+          y: canoChaoY,
+        };
+      });
+    },
+    temColisaoComBird(par) {
+      const cabecaDoBird = globais.bird.y;
+      const peDoBird = globais.bird.y + globais.bird.altura;
+
+      if (globais.bird.x >= par.x) {
+        if (cabecaDoBird <= par.canoCeu.y) {
+          return true;
+        }
+        if (peDoBird >= par.canoChao.y) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    pares: [],
+    atualiza() {
+      const passou100Frames = frames % 100 === 0;
+      if (passou100Frames) {
+        canos.pares.push({
+          x: canvas.width,
+          y: -150 * (Math.random() + 1),
+        });
+      }
+
+      canos.pares.forEach((par) => {
+        par.x = par.x - 2;
+
+        if (canos.temColisaoComBird(par)) {
+          mudaParaTela(Telas.INICIO);
+        }
+
+        if (par.x + canos.largura <= 0) {
+          canos.pares.shift();
+        }
+      });
+    },
+  };
+
+  return canos;
+};
+
 // [Telas]
 const globais = {};
 let telaAtiva = {};
@@ -225,10 +328,12 @@ const Telas = {
     inicializa() {
       globais.bird = criaBird();
       globais.chao = criaChao();
+      globais.canos = criaCanos();
     },
     desenha() {
       planoDeFundo.desenha();
       globais.bird.desenha();
+
       globais.chao.desenha();
       getReady.desenha();
     },
@@ -243,14 +348,17 @@ const Telas = {
 Telas.JOGO = {
   desenha() {
     planoDeFundo.desenha();
+    globais.canos.desenha();
     globais.chao.desenha();
     globais.bird.desenha();
   },
   click() {
     globais.bird.pula();
-    somDe_HIT.play();
+    som_PULO.play();
   },
   atualiza() {
+    globais.canos.atualiza();
+    globais.chao.atualiza();
     globais.bird.atualiza();
   },
 };
