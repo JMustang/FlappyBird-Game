@@ -1,3 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    display: flex;
+    color: antiquewhite;
+    padding: 10px;
+    margin: block;
+}
+
+.landing {
+    cursor: pointer;
+    border-radius: 10px;
+    min-height: 10vh;
+    background: gray;
+    background-size: cover;
+    padding: 0.1rem 1rem;
+    display: flex;
+    transition: transform 450ms;
+}
+.landing:hover {
+    transform: scale(1.03);
+    color: black;
+    background: pink;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    min-height: 10vh;
+}
+
+#logo {
+    font-weight: bold;
+    font-family: fantasy;
+    font-weight: lighter;
+    font-size: 3rem;
+}
+
 body {
     min-height: 100vh;
     display: flex;
@@ -7,6 +50,8 @@ body {
 
 canvas {
     border: 1px solid #000;
-    display: block;
-    margin: 0 auto;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 3px 3px 10px rgb(0, 0, 0, 363);
+    align-items: center;
 }
