@@ -4,49 +4,42 @@
     box-sizing: border-box;
 }
 
-main {
-    display: flex;
-    color: antiquewhite;
-    padding: 10px;
-    margin: block;
-}
-
-.landing {
-    cursor: pointer;
-    border-radius: 10px;
-    min-height: 10vh;
-    background: gray;
-    background-size: cover;
-    padding: 0.1rem 1rem;
-    display: flex;
-    transition: transform 450ms;
-}
-.landing:hover {
-    transform: scale(1.03);
-    color: black;
-    background: pink;
-}
-
-nav {
-    display: flex;
-    align-items: center;
-    align-items: center;
-    min-height: 10vh;
-}
-
-#logo {
-    font-weight: bold;
-    font-family: fantasy;
-    font-weight: lighter;
-    font-size: 3rem;
-}
-
 body {
-    min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
+html, body {
+    height: 100%;
+}
+
+.menu__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 90%;
+    height: 50px;
+    display: flex;
+    width: 100%;
+    background: rgb(187, 186, 186);
+    border-radius: 25px;
+    border: 1px solid #000000;
+}
+
+.menu__header:hover {
+    background: pink;
+    color: white;
+}
+
+.menu__h1 {
+    padding: 1px 50px;
+    font-family: 'Roboto Slab', serif;
+    font-size: 35px;
+    height: 40px;
+    text-align: center;
+}
+
 
 canvas {
     border: 1px solid #000;
