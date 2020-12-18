@@ -311,6 +311,28 @@ criaCanos = () => {
   return canos;
 };
 
+// Placar
+function criaPlacar() {
+  const placar = {
+    pontuacao: 0,
+    desenha() {
+      contexto.font = "10px 'Press Start 2P'";
+      contexto.textAlign = "right";
+      contexto.fillStyle = "black";
+      contexto.fillText(`${placar.pontuacao}`, canvas.width - 30, 35);
+    },
+    atualiza() {
+      const intervaloDeFrames = 20;
+      const passouOIntervalo = frames % intervaloDeFrames === 0;
+
+      if (passouOIntervalo) {
+        placar.pontuacao = placar.pontuacao + 1;
+      }
+    },
+  };
+  return placar;
+}
+
 // [Telas]
 const globais = {};
 let telaAtiva = {};
@@ -346,11 +368,15 @@ const Telas = {
   },
 };
 Telas.JOGO = {
+  inicializa() {
+    globais.placar = criaPlacar();
+  },
   desenha() {
     planoDeFundo.desenha();
     globais.canos.desenha();
     globais.chao.desenha();
     globais.bird.desenha();
+    globais.placar.desenha();
   },
   click() {
     globais.bird.pula();
@@ -360,6 +386,7 @@ Telas.JOGO = {
     globais.canos.atualiza();
     globais.chao.atualiza();
     globais.bird.atualiza();
+    globais.placar.atualiza();
   },
 };
 
