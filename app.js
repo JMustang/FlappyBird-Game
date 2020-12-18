@@ -125,7 +125,7 @@ criaBird = () => {
     atualiza() {
       if (colisao(bird, globais.chao)) {
         som_HIT.play();
-        mudaParaTela(Telas.INICIO);
+        mudaParaTela(Telas.GAME_OVER);
         return;
       }
 
@@ -208,6 +208,29 @@ const getReady = {
   },
 };
 
+// [mensagemGameOver]
+const mensagemGameOver = {
+  spriteX: 134,
+  spriteY: 153,
+  largura: 226,
+  altura: 200,
+  x: canvas.width / 2 - 226 / 2,
+  y: 50,
+  desenha() {
+    contexto.drawImage(
+      sprites,
+      mensagemGameOver.spriteX,
+      mensagemGameOver.spriteY,
+      mensagemGameOver.largura,
+      mensagemGameOver.altura,
+      mensagemGameOver.x,
+      mensagemGameOver.y,
+      mensagemGameOver.largura,
+      mensagemGameOver.altura
+    );
+  },
+};
+
 //[função cria canos]
 criaCanos = () => {
   const canos = {
@@ -273,7 +296,7 @@ criaCanos = () => {
       const cabecaDoBird = globais.bird.y;
       const peDoBird = globais.bird.y + globais.bird.altura;
 
-      if (globais.bird.x >= par.x) {
+      if (globais.bird.x + globais.bird.largura >= par.x) {
         if (cabecaDoBird <= par.canoCeu.y) {
           return true;
         }
@@ -298,7 +321,8 @@ criaCanos = () => {
         par.x = par.x - 2;
 
         if (canos.temColisaoComBird(par)) {
-          mudaParaTela(Telas.INICIO);
+          som_HIT.play();
+          mudaParaTela(Telas.GAME_OVER);
         }
 
         if (par.x + canos.largura <= 0) {
@@ -387,6 +411,16 @@ Telas.JOGO = {
     globais.chao.atualiza();
     globais.bird.atualiza();
     globais.placar.atualiza();
+  },
+};
+
+Telas.GAME_OVER = {
+  desenha() {
+    mensagemGameOver.desenha();
+  },
+  atualiza() {},
+  click() {
+    mudaParaTela(Telas.INICIO);
   },
 };
 
